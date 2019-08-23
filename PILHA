@@ -1,0 +1,66 @@
+#include "pilhaEstatica.h"
+
+void iniciaPilha(pilhaEstatica *pilha) {
+
+    pilha->topo = 0;
+}
+
+bool estaVazia(pilhaEstatica *pilha) {
+
+    if (pilha->topo == 0){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+bool estaCheia(pilhaEstatica *pilha) {
+
+    if (topo == MAXTAM){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+void empilha(Objeto item, pilhaEstatica *pilha) {
+
+    if (estaCheia(pilha)==0){
+        pilha->array[pilha->topo]= item;
+        pilha->topo = pilha->topo+1;
+
+    }
+    else{
+        printf("A PILHA ESTA CHEIA");
+    }
+}
+
+void desempilha(Objeto *item, pilhaEstatica *pilha) {
+
+    if (estaVazia(pilha)==0){
+        *item = pilha->array[pilha->topo-1];
+        pilha->topo = pilha->topo-1;
+        return(item);
+    }
+    else{
+        printf("A PILHA JÁ ESTA VAZIA");
+    }
+}
+
+int tamanhoPilha(pilhaEstatica *pilha) {
+    return (pilha->topo);
+}
+
+Objeto topo(pilhaEstatica *pilha) {
+    return (pilha->array[pilha->topo]);
+}
+
+void imprimePilha(pilhaEstatica *pilha) {
+
+    for (int i = 0; i < pilha->topo ; i++) {
+        printf("%d", pilha->array[i].chave);
+
+    }
+}
