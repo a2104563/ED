@@ -1,5 +1,5 @@
 //
-// Created by a2104563 on 01/10/19.
+// Created by a2104563 on 04/10/19.
 //
 
 #ifndef UNTITLED_ARVORE_H
@@ -29,32 +29,89 @@ void iniciaArvore(PtrArvore *arvore){
 bool estaVazia(PtrArvore *arvore){
     return (*arvore==NULL);
 };
-void destroiArvore(PtrArvore *arvore);
-void preOrdem(PtrArvore *arvore);
-void posOrdem(PtrArvore *arvore);
-void EmOrdem(PtrArvore *arvore);
 bool insereItem(PtrArvore *arvore, Objeto x){
-    PtrArvore raiz;
-    if (estaVazia(arvore)){
-        raiz= (PtrArvore)malloc(sizeof(NoArvore));
-        raiz->elemento=x;
-        raiz->direita=raiz->esquerda=NULL;
-        raiz->elemento=x;
+
+    if ((*arvore)==NULL){
+        (*arvore)= (PtrArvore)malloc(sizeof(NoArvore));
+        (*arvore)->elemento=x;
+        (*arvore)->direita=(*arvore)->esquerda=NULL;
+        (*arvore)->elemento=x;
         return (true);
     }
-    if ()
+    if ((*arvore)->elemento.chave == x.chave){
+        return (false);
+    }
+    if ((*arvore)->elemento.chave > x.chave){
+        return (insereItem(&(*arvore)->esquerda, x));
+    }
+    else{
+        return (insereItem(&(*arvore)->direita, x));
+    }
+};
+void destroiArvore(PtrArvore *arvore);
+void preOrdem(PtrArvore *arvore){
+    if (*arvore== NULL){
+        return;
+    }
+    else{
+        printf("%d,", (*arvore)->elemento.chave);
+        preOrdem(&(*arvore)->esquerda);
+        preOrdem(&(*arvore)->direita);
+    }
+};
+void posOrdem(PtrArvore *arvore){
+    if ((*arvore)==NULL){
+        return;
+    }
+    else {
+        posOrdem(&(*arvore)->esquerda);
+        posOrdem(&(*arvore)->direita);
+        printf("%d,", (*arvore)->elemento.chave);
+    }
+};
+void EmOrdem(PtrArvore *arvore){
+    if ((*arvore)==NULL){
+        return;
+    }
+    else {
+        EmOrdem(&(*arvore)->esquerda);
+        printf("%d,", (*arvore)->elemento.chave);
+        EmOrdem(&(*arvore)->direita);
+    }
+
+};
+
+bool procuraItem(PtrArvore *arvore, int key, Objeto *ret){
+    if ((*arvore)==NULL){
+        return (false);
+    }
+    if ((*arvore)->elemento.chave == key){
+        return (true);
+    }
+    if (key < (*arvore)->elemento.chave){
+        return procuraItem(&(*arvore)->esquerda, key, ret);
+    }
+    else{
+        return procuraItem(&(*arvore)->direita, key, ret);
+    }
+};
+
+bool removeItem(PtrArvore *arvore, int key);
+PtrArvore maximo(PtrArvore *arvore){
+
+};
+PtrArvore maximoIterativo(PtrArvore *arvore);
+PtrArvore minimo(PtrArvore *arvore){
+    PtrArvore aux=NULL;
+    while ((*arvore)->esquerda != NULL){
+        aux= ((*arvore)->esquerda);
+    }
+    printf("%d", aux);
 
 
 };
-bool procuraItem(PtrArvore *arvore, int key, Objeto *ret);
-
-bool removeItem(PtrArvore *arvore, int key);
-PtrArvore maximo(PtrArvore *arvore);
-PtrArvore maximoIterativo(PtrArvore *arvore);
-PtrArvore minimo(PtrArvore *arvore);
 PtrArvore minimoIterativo(PtrArvore *arvore);
 PtrArvore getMinAux(PtrArvore *arvore); //usado na remoção
 PtrArvore getMaxAux(PtrArvore *arvore); //usado na remoção
-
 
 #endif //UNTITLED_ARVORE_H
