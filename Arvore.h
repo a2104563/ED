@@ -1,5 +1,5 @@
 //
-// Created by a2104563 on 04/10/19.
+// Created by root on 14/10/2019.
 //
 
 #ifndef UNTITLED_ARVORE_H
@@ -54,7 +54,7 @@ void preOrdem(PtrArvore *arvore){
         return;
     }
     else{
-        printf("%d,", (*arvore)->elemento.chave);
+        printf("%d  ", (*arvore)->elemento.chave);
         preOrdem(&(*arvore)->esquerda);
         preOrdem(&(*arvore)->direita);
     }
@@ -66,7 +66,7 @@ void posOrdem(PtrArvore *arvore){
     else {
         posOrdem(&(*arvore)->esquerda);
         posOrdem(&(*arvore)->direita);
-        printf("%d,", (*arvore)->elemento.chave);
+        printf("%d  ", (*arvore)->elemento.chave);
     }
 };
 void EmOrdem(PtrArvore *arvore){
@@ -75,7 +75,7 @@ void EmOrdem(PtrArvore *arvore){
     }
     else {
         EmOrdem(&(*arvore)->esquerda);
-        printf("%d,", (*arvore)->elemento.chave);
+        printf("%d  ", (*arvore)->elemento.chave);
         EmOrdem(&(*arvore)->direita);
     }
 
@@ -94,24 +94,65 @@ bool procuraItem(PtrArvore *arvore, int key, Objeto *ret){
     else{
         return procuraItem(&(*arvore)->direita, key, ret);
     }
-};
+}
 
-bool removeItem(PtrArvore *arvore, int key);
-PtrArvore maximo(PtrArvore *arvore){
-
-};
-PtrArvore maximoIterativo(PtrArvore *arvore);
-PtrArvore minimo(PtrArvore *arvore){
-    PtrArvore aux=NULL;
-    while ((*arvore)->esquerda != NULL){
-        aux= ((*arvore)->esquerda);
+PtrArvore getMinAux(PtrArvore *arvore){
+    //-------------------------------------------USADO NA REMOCAO-------------------------------------------------------
+    PtrArvore ret;
+    if ((*arvore)->esquerda == NULL){
+        ret = (*arvore);
+        (*arvore) = (*arvore)->direita;
+        return (ret);
     }
-    printf("%d", aux);
+    return (getMinAux(&(*arvore)->esquerda));
+}
 
+PtrArvore getMaxAux(PtrArvore *arvore){
+    //-------------------------------------------USADO NA REMOCAO-------------------------------------------------------
+    PtrArvore ret;
+    if ((*arvore)->direita == NULL){
+        ret = (*arvore);
+        (*arvore) = (*arvore)->esquerda;
+        return (ret);
+    }
+    return (getMaxAux(&(*arvore)->direita));
+}
 
-};
+bool removeItem(PtrArvore *arvore, Objeto key){
+    if ((*arvore)==NULL){
+        printf("ARVORE ESTA VAZIA!!");
+        return false;
+    }
+    //-----------------------------------EXISTE O ELEMENTO A REMOVER/ ATT PONTEIROS ------------------------------------
+    if ((*arvore)->elemento.chave == key.chave) {
+        PtrArvore temp;
+        temp=(PtrArvore)malloc(sizeof(NoArvore));
+        //--------------------------------------------- 1 caso (sub-arvore esq nula/ folha)-----------------------------
+        if ((*arvore)->esquerda == NULL) {
+            (*arvore) = (*arvore)->direita;
+        }
+            //----------------------------------------- 2 caso (direita nula/ folha) -----------------------------------
+        else if ((*arvore)->direita == NULL) {
+            (*arvore) = (*arvore)->esquerda;
+        }
+            //---------------------------------------------- 3 caso (raiz)----------------------------------------------
+        else {
+            temp = getMaxAux(&(*arvore)->esquerda);
+            (*arvore)->elemento = temp->elemento;
+        }
+        free(temp);
+        return true;
+    }
+    if ((*arvore)->elemento.chave > key.chave){
+        return (removeItem(&(*arvore)->esquerda,key));
+    } else{
+        return (removeItem(&(*arvore)->direita, key));
+    }
+}
+PtrArvore maximo(PtrArvore *arvore);
+PtrArvore maximoIterativo(PtrArvore *arvore);
+PtrArvore minimo(PtrArvore *arvore);
 PtrArvore minimoIterativo(PtrArvore *arvore);
-PtrArvore getMinAux(PtrArvore *arvore); //usado na remoção
-PtrArvore getMaxAux(PtrArvore *arvore); //usado na remoção
+
 
 #endif //UNTITLED_ARVORE_H
