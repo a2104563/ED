@@ -115,7 +115,7 @@ void RDuplaDir(PtrArvoreAVL *arvore) {
     (*arvore) = v;
 }
 void aplicarRotacoes(PtrArvoreAVL *arvore, int bf){
-    if ((bf == 2) && (alturaArvoreAVL(&(*arvore)->direita) > alturaArvoreAVL(&(*arvore)->esquerda))){
+    if ((bf == 2) && (alturaArvoreAVL(&(*arvore)->direita) >= alturaArvoreAVL(&(*arvore)->esquerda))){
         printf("ROTAÇÃO SIMPLES P/ ESQUERDA...\n");
         RSimpEsq(&(*arvore));
     }
@@ -134,6 +134,7 @@ void aplicarRotacoes(PtrArvoreAVL *arvore, int bf){
 }
 bool inserirArvoreAVL(PtrArvoreAVL *arvore, Objeto x){
     bool aux=0;
+    printf("Inserindo: %d\n", x.chave);
     if ((*arvore)==NULL){
         (*arvore)= (PtrArvoreAVL)malloc(sizeof(NoArvoreAVL));
         (*arvore)->elemento=x;
@@ -164,8 +165,6 @@ bool inserirArvoreAVL(PtrArvoreAVL *arvore, Objeto x){
     (*arvore)->altura= atualizaAlturaArvoreAVL(&(*arvore));
     return (true);
 }
-
-
 void imprimeArvoreAVLNivel(PtrArvoreAVL *arvore);
 
 
