@@ -24,7 +24,6 @@ void iniciaArvoreAVL(PtrArvoreAVL *arvore){
 bool estaVaziaArvoreAVL(PtrArvoreAVL *arvore){
     return ((*arvore)==NULL);
 }
-
 void preOrdem(PtrArvoreAVL *arvore){
     if (*arvore== NULL){
         return;
@@ -40,9 +39,9 @@ void posOrdem(PtrArvoreAVL *arvore){
         return;
     }
     else {
-    posOrdem(&(*arvore)->esquerda);
-    posOrdem(&(*arvore)->direita);
-    printf("%d  ", (*arvore)->elemento.chave);
+        posOrdem(&(*arvore)->esquerda);
+        posOrdem(&(*arvore)->direita);
+        printf("%d  ", (*arvore)->elemento.chave);
     }
 }
 void EmOrdem(PtrArvoreAVL *arvore){
@@ -56,10 +55,28 @@ void EmOrdem(PtrArvoreAVL *arvore){
     }
 }
 int alturaArvoreAVL(PtrArvoreAVL *arvore){
-    return ((*arvore)->altura);
+    if((*arvore) == NULL){
+        return 0;
+    }else{
+        int D, E;
+        E = alturaArvoreAVL(&(*arvore)->esquerda);
+        D = alturaArvoreAVL(&(*arvore)->direita);
+        if(E > D){
+            return (E+1);
+        }else{
+            return (D+1);
+        }
+    }
 }
-int atualizaAlturaArvoreAVL(PtrArvoreAVL esquerda, PtrArvoreAVL direita){
-
+int atualizaAlturaArvoreAVL(PtrArvoreAVL *arvore){
+    if((*arvore)== NULL){
+        return false;
+    }else{
+        (*arvore)->altura = alturaArvoreAVL(arvore);
+        atualizaAlturaArvoreAVL(&(*arvore)->direita);
+        atualizaAlturaArvoreAVL(&(*arvore)->esquerda);
+        return true;
+    }
 }
 void RSimpDir(PtrArvoreAVL *arvore){
     PtrArvoreAVL u;
@@ -86,7 +103,6 @@ void RDuplaEsq(PtrArvoreAVL *arvore){
     v->esquerda = (*arvore);
     (*arvore)= v;
 }
-
 void RDuplaDir(PtrArvoreAVL *arvore) {
     PtrArvoreAVL u;
     PtrArvoreAVL v;
@@ -115,10 +131,7 @@ void aplicarRotacoes(PtrArvoreAVL *arvore, int bf){
         printf("ROTAÇÃO DUPLA P/ DIREITA...\n");
         RDuplaDir(&(*arvore));
     }
-
-};
-
-
+}
 bool inserirArvoreAVL(PtrArvoreAVL *arvore, Objeto x){
     bool aux=0;
     if ((*arvore)==NULL){
@@ -148,11 +161,12 @@ bool inserirArvoreAVL(PtrArvoreAVL *arvore, Objeto x){
         printf("APLICANDO ROTAÇÃO\n");
         aplicarRotacoes(&(*arvore), bf);
     }
-    (*arvore)->altura= atualizaAlturaArvoreAVL((*arvore)->esquerda,(*arvore)->direita);
+    (*arvore)->altura= atualizaAlturaArvoreAVL(&(*arvore));
     return (true);
 }
 
 
 void imprimeArvoreAVLNivel(PtrArvoreAVL *arvore);
+
 
 #endif //UNTITLED_ARVOREAVL_H
